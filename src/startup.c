@@ -199,7 +199,7 @@ void __Init_Data(void) {
 void Reset_Handler(void) {
 	/* Initialize data and bss */
 	__Init_Data();
-	extern uint32_t _isr_vectors_offs;
+	extern uint32_t _isr_vectors_offs; /*_isr_vectors_offs is */
 	SCB->VTOR = 0x08000000 | ((uint32_t)&_isr_vectors_offs & (uint32_t)0x1FFFFF80);
 	SystemInit();
 	main();

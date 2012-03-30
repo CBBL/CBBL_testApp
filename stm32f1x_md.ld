@@ -17,7 +17,8 @@ ENTRY(Reset_Handler)
 MEMORY {
 	RAM      (RWX) : ORIGIN = 0x20000000     , LENGTH = 20K
 	EXTSRAM  (RWX) : ORIGIN = 0x68000000     , LENGTH = 0
-	FLASH    (RX)  : ORIGIN = 0x08000000     , LENGTH = 126K
+	FLASH    (RX)  : ORIGIN = 0x08003000     , LENGTH = 113K
+	/*changed from 0x08000000 and length from 126K. */
 	EEMUL    (RWX) : ORIGIN = 0x08000000+126K, LENGTH = 2K
 }
  
@@ -27,19 +28,22 @@ _min_stack      = 0x100;			/* minimum stack space to reserve for the user app */
  
 /* check valid alignment for the vector table */
 ASSERT(ORIGIN(FLASH) == ALIGN(ORIGIN(FLASH), 0x80), "Start of memory region flash not aligned for startup vector table");
- 
+/* 0x08003000 == 
+
 SECTIONS {
 	/* vector table and program code goes into FLASH */
+	/* since explicitly >FLASH and no address specified for .text then .=0x08000300 */
 	.text : {
-		. = ALIGN(0x80);
-		_isr_vectors_offs = . - 0x08000000;
-		KEEP(*(.isr_vectors))
+		. = ALIGN(0x80); /*0x08003000 alignment. */
+		_isr_vectors_offs = . - 0x08000000; /*_isr_vectors_offs=0x3000. it's an offset! */
+		KEEP(*(.isr_vectors)) /*i guess this places the .isr_vectors at the origin of the flash*/
+		/*and increments the location counter; that is why we need align(4) afterwards. */
 		. = ALIGN(4);
-		CREATE_OBJECT_SYMBOLS
-		*(.text .text.*)
+		CREATE_OBJECT_SYMBOLS /*create a symbol for each input file. */
+		*(.text .text.*) /*for every file, place the .text sections into .text */
 	} >FLASH
  
-	.rodata : ALIGN (4) {
+	.rodata : ALIGN (4) { 
 		*(.rodata .rodata.*)
  
 		. = ALIGN(4);

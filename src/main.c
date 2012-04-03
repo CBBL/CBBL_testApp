@@ -101,7 +101,7 @@ int main(void) {
 	/*Set TE RE (transmission and receive enable) bits. */
 	USART1->CR1 |= USART_CR1_TE | USART_CR1_RE;
 
-	char rec = 'h';
+	//char rec = 'h';
 	//char c = 'a';
 
 	/*Wait until TXE is stable. */
@@ -124,37 +124,13 @@ int main(void) {
 
 		delay(0xFFFFF);
 
-		if (rec=='r') GPIOA->BSRR |= GPIO_BSRR_BS0 | GPIO_BSRR_BS1 | GPIO_BSRR_BS2 | GPIO_BSRR_BR3;
-		else GPIOA->BSRR |= GPIO_BSRR_BR0 | GPIO_BSRR_BR1 | GPIO_BSRR_BR2 | GPIO_BSRR_BR3;
+		GPIOA->BSRR |= GPIO_BSRR_BS0 | GPIO_BSRR_BS1 | GPIO_BSRR_BR2 | GPIO_BSRR_BR3;
 
-		/*when button pressed, send the character "a"=0x00000061 through UART*/
-		if((GPIOB->IDR & GPIO_IDR_IDR1) == 0) {
-			GPIOA->BSRR |= GPIO_BSRR_BR0 | GPIO_BSRR_BR1 | GPIO_BSRR_BR2 | GPIO_BSRR_BR3;
+		delay(0xFFFFF);
 
-			/* Wait for a character. */
-			while (!(USART1->SR & USART_SR_RXNE));
+		GPIOA->BSRR |= GPIO_BSRR_BR0 | GPIO_BSRR_BR1 | GPIO_BSRR_BS2 | GPIO_BSRR_BS3;
 
-			/* Read received character. */
-			rec = USART1->DR;
-
-			/*Delay. */
-			delay(0xFFFFF);
-
-			/*Wait until TXE is stable. */
-			/*i.e. loop until bit 7 is set. */
-			while ((USART1->SR & 0x00000080) != 0x00000080);
-
-			/*Load DR which begins transmission automatically*/
-			USART1->DR = rec;
-
-			/* Wait for transfer complete. */
-			while (!(USART1->SR & USART_SR_TC));
-
-			/* Delay. */
-			delay(0xFFFFF);
-
-			continue;
-		}
+		delay(0xFFFFF);
 
 	}
 

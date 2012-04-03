@@ -28,7 +28,7 @@ _min_stack      = 0x100;			/* minimum stack space to reserve for the user app */
  
 /* check valid alignment for the vector table */
 ASSERT(ORIGIN(FLASH) == ALIGN(ORIGIN(FLASH), 0x80), "Start of memory region flash not aligned for startup vector table");
-/* 0x08003000 == 
+
 
 SECTIONS {
 	/* vector table and program code goes into FLASH */
@@ -96,6 +96,9 @@ SECTIONS {
 		but we have to store it in the FLASH otherwise it
 		will get lost between resets, so the startup code
 		has to copy it into RAM before the program starts
+	*/
+	/*
+		_sdata is indeed used in the function __Init_Data in startup.c
 	*/
 	.data : ALIGN (8) {
 		_sdata = . ; /* exported for the startup function */

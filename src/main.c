@@ -99,7 +99,7 @@ int main(void) {
 	GPIOB->ODR |= GPIO_ODR_ODR0 | GPIO_ODR_ODR1;
 
 	/*Set TE RE (transmission and receive enable) bits. */
-	USART1->CR1 |= USART_CR1_TE | USART_CR1_RE;
+	//USART1->CR1 |= USART_CR1_TE | USART_CR1_RE;
 
 	//char rec = 'h';
 	//char c = 'a';
@@ -109,16 +109,16 @@ int main(void) {
 //	while ((USART1->SR & USART_SR_TXE) != 1);
 
 	/*Load DR which begins transmission automatically*/
-	USART1->DR = 'X';
+	//USART1->DR = 'X';
 
 	/* Wait for transfer complete. */
-	while (!(USART1->SR & USART_SR_TC));
+	//while (!(USART1->SR & USART_SR_TC));
 
 	/*Load DR which begins transmission automatically*/
-	USART1->DR = 'X';
+	//USART1->DR = 'X';
 
 	/* Wait for transfer complete. */
-	while (!(USART1->SR & USART_SR_TC));
+	//while (!(USART1->SR & USART_SR_TC));
 
 	while(1) {
 

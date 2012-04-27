@@ -17,7 +17,7 @@ ENTRY(Reset_Handler)
 MEMORY {
 	RAM      (RWX) : ORIGIN = 0x20000000     , LENGTH = 20K
 	EXTSRAM  (RWX) : ORIGIN = 0x68000000     , LENGTH = 0
-	FLASH    (RX)  : ORIGIN = 0x08003000     , LENGTH = 113K
+	FLASH    (RX)  : ORIGIN = 0x08005000     , LENGTH = 113K
 	/*changed from 0x08000000 and length from 126K. */
 	EEMUL    (RWX) : ORIGIN = 0x08000000+126K, LENGTH = 2K
 }
@@ -32,9 +32,9 @@ ASSERT(ORIGIN(FLASH) == ALIGN(ORIGIN(FLASH), 0x80), "Start of memory region flas
 
 SECTIONS {
 	/* vector table and program code goes into FLASH */
-	/* since explicitly >FLASH and no address specified for .text then .=0x08000300 */
+	/* since explicitly >FLASH and no address specified for .text then .=0x08005000 */
 	.text : {
-		. = ALIGN(0x80); /*0x08003000 alignment. */
+		. = ALIGN(0x80); /*0x08005000 alignment. */
 		_isr_vectors_offs = . - 0x08000000; /*_isr_vectors_offs=0x3000. it's an offset! */
 		KEEP(*(.isr_vectors)) /*i guess this places the .isr_vectors at the origin of the flash*/
 		/*and increments the location counter; that is why we need align(4) afterwards. */

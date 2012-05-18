@@ -17,7 +17,7 @@ ENTRY(Reset_Handler)
 MEMORY {
 	RAM      (RWX) : ORIGIN = 0x20000000     , LENGTH = 20K
 	EXTSRAM  (RWX) : ORIGIN = 0x68000000     , LENGTH = 0
-	FLASH    (RX)  : ORIGIN = 0x08005000     , LENGTH = 113K
+	FLASH    (RX)  : ORIGIN = 0x08006000     , LENGTH = 113K
 	/*changed from 0x08000000 and length from 126K. */
 	EEMUL    (RWX) : ORIGIN = 0x08000000+126K, LENGTH = 2K
 }
